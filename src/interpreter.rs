@@ -118,51 +118,27 @@ impl Interpreter {
     }
 
     fn run_jne(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Less || self.ord == Ordering::Greater {
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+        self.jump_if(id, self.ord == Ordering::Less || self.ord == Ordering::Greater);
     }
 
     fn run_je(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Equal{
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+        self.jump_if(id, self.ord == Ordering::Equal);
     }
 
     fn run_jge(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Greater || self.ord == Ordering::Equal {
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+        self.jump_if(id, self.ord == Ordering::Greater || self.ord == Ordering::Equal);
     }
 
     fn run_jg(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Greater {
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+        self.jump_if(id, self.ord == Ordering::Greater);
     }
 
     fn run_jle(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Less || self.ord == Ordering::Equal {
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+       self.jump_if(id, self.ord == Ordering::Less || self.ord == Ordering::Equal);
     }
 
     fn run_jl(&mut self, id: &Identifier) {
-        if self.ord == Ordering::Less {
-            self.run_jmp(id);
-        } else {
-            self.inc_pointer();
-        }
+        self.jump_if(id, self.ord == Ordering::Less);
     }
 
     fn run_call(&mut self, id: &Identifier) {
@@ -190,6 +166,14 @@ impl Interpreter {
 
     fn run_end(&mut self) {
         self.end = true;
+    }
+
+    fn jump_if(&mut self, id: &Identifier, e: bool) {
+        if e {
+            self.run_jmp(id);
+        } else {
+            self.inc_pointer();
+        }
     }
 
     fn check_labels(&mut self) {
