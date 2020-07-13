@@ -91,7 +91,6 @@ fn mul<'a>() -> impl Parser<'a, Instruction> {
         .right(space1())
         .right(reg_and_eval())
         .map(|(reg, eval)| Mul(reg, eval))
-        .debug("mul")
 }
 
 fn div<'a>() -> impl Parser<'a, Instruction> {
